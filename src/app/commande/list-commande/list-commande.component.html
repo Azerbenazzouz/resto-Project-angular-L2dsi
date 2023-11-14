@@ -1,0 +1,37 @@
+<h1 class="text-center mb-5 mt-3">Liste des commandes</h1>
+<table class="table">
+    <thead>
+        <th scope="col">#</th>
+        <th scope="col">Nom Client</th> 
+        <th scope="col">Date Commande</th>
+        <th scope="col">Etat</th>
+        <th scope="col">Prix Total</th>
+        <th scope="col">Détails</th>
+        <th scope="col">Modifier</th>
+        <th scope="col">Supprimer</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let commande of commandes">
+            <th>{{commande.id}}</th>
+            <td>{{getClientName(commande.clientId)}}</td>
+            <td>{{commande.dateCmd.getDate()}}/{{commande.dateCmd.getMonth()}}/{{commande.dateCmd.getFullYear()}}</td>
+            <td>{{getEtatCommande(commande.etat)}}</td>
+            <td>{{commande.total}}</td>
+            <td>
+                <a [routerLink]="['/commande', commande.id]" class="btn btn-primary">
+                    Détail
+                </a>
+            </td>
+            <td>
+                <a [routerLink]="['/commande/edit' , commande.id]" class="btn btn-success">
+                    Modifier
+                </a>
+            </td>
+            <td>
+                <a (click)="deleteCommande(commande.id)" class="btn btn-danger">
+                    Supprimer
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>

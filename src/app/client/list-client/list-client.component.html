@@ -1,0 +1,38 @@
+<h1 class="text-center mb-5 mt-3">Liste des clients</h1>
+<!-- ajouter client button right green -->
+<div class="row">
+  <div class="col-md-6">
+    <input type="text" class="form-control mb-3" placeholder="Rechercher un client" [(ngModel)]="searchText" (keyup)="rechercheClient()">
+  </div>
+
+  <div class="col-md-6">
+    <a [routerLink]="['/client/add']" class="btn btn-success btn-block mb-3">Ajouter client</a>
+  </div>
+  
+</div>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nom</th>
+        <th scope="col">Email</th>
+        <th scope="col">Telephone</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Supprimer</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let client of clients">
+        <th scope="row">{{client.id}}</th>
+        <td>{{client.nom}}</td>
+        <td>{{client.email}}</td>
+        <td>{{client.tel}}</td>
+        <td>
+          <a [routerLink]="['/client/edit', client.id]" class="btn btn-primary">Edit</a>
+        </td>
+        <td>
+          <button class="btn btn-danger" (click)="deleteClient(client.id)">Supprimer</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
