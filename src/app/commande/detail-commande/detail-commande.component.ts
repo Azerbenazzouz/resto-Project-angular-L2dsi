@@ -4,6 +4,7 @@ import { Icommande } from '../model/icommande';
 import { CommandeService } from '../service/commande.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClientService } from 'src/app/client/service/client.service';
+import { ProductService } from './../../produit/service/product.service';
 
 @Component({
   selector: 'app-detail-commande',
@@ -22,7 +23,7 @@ export class DetailCommandeComponent {
     total : 0
   };
 
-  constructor( private commandeService : CommandeService , private clientService : ClientService , private route: ActivatedRoute , private router: Router ) { }
+  constructor( private commandeService : CommandeService , private clientService : ClientService , private productService : ProductService , private route: ActivatedRoute , private router: Router ) { }
 
   ngOnInit() {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
@@ -40,4 +41,11 @@ export class DetailCommandeComponent {
     return { nom : '' , email : '' , tel : ''};
   }
   
+  // return product Info
+  getProductInfo(id : number){
+    const product = this.productService.getProductById(id);
+    if(product)
+      return { nom : product.nom , prix : product.prix};
+    return { nom : '' , prix : 0};
+  }
 }
