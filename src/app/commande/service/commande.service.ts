@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Icommande } from '../model/icommande';
 import { Icommandeproduit } from '../model/icommandeproduit';
-
+import { Iproduit } from '../../produit/model/iproduit';
+import { ProductService } from 'src/app/produit/service/product.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -13,16 +14,12 @@ export class CommandeService {
   private commandeProduits : Icommandeproduit[] = [
     { produitId: 1,
       qte: 1,
-      prixUnitaire: 100
+      prixUnitaire: 0
     },
     { produitId: 2,
       qte: 5,
       prixUnitaire: 44
-    },
-    { produitId: 5,
-      qte: 2,
-      prixUnitaire: 90
-    },
+    }
   ];
 
   private commandes : Icommande[] = [
@@ -31,16 +28,17 @@ export class CommandeService {
       etat: 1,
       clientId: 1,
       produitsCmd: [this.commandeProduits[0], this.commandeProduits[1]],
-      total: 320
+      total: 0
     },
     { id: 2,
       dateCmd: new Date('2023-05-07'),
       etat: 2,
       clientId: 2,
-      produitsCmd: [this.commandeProduits[0], this.commandeProduits[1], this.commandeProduits[2]],
-      total: 500
+      produitsCmd: [this.commandeProduits[0], this.commandeProduits[1]],
+      total: 0
     },
   ];
+  
   // get all commandes
   public getCommandes(): Icommande[] {
     return this.commandes;
@@ -72,7 +70,9 @@ export class CommandeService {
   // claculer total commande
   public calculerTotal(commande: Icommande) {
     commande.total = 0;
-    commande.produitsCmd.forEach(p => commande.total += p.qte * p.prixUnitaire);
+    for (let produit of commande.produitsCmd) {
+      commande.total += produit.prixUnitaire * produit.qte;
+    }
   }
   // add produit to commande
   public addProduitToCommande(commande: Icommande, produit: Icommandeproduit) {
@@ -104,5 +104,17 @@ export class CommandeService {
     commande.produitsCmd.splice(index, 1);
     this.calculerTotal(commande);
   }
-  constructor() { }
+  // set prix unitaire of commande produit
+  public setPrixUnitaire(commande: Icommande, produit: Icommandeproduit) {
+    produit.prixUnitaire = this.produitService.getPriceOfProduct(produit.produitId) as number;
+    this.calculerTotal(commande);
+  }
+  constructor( private produitService : ProductService) {
+    for (let commande of this.commandes) {
+      for(let produit of commande.produitsCmd){
+        this.setPrixUnitaire(commande, produit);
+      }
+      this.calculerTotal(commande);
+    }
+  }
 }

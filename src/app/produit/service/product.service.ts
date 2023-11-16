@@ -114,5 +114,10 @@ export class ProductService {
       }
     });
   }
+  // get price of product
+  public getPriceOfProduct(id : Number) : Number {
+    return this.Products.find(p => p.id === id)?.prix as number || 0;
+  }
   constructor() { }
 }
+ 

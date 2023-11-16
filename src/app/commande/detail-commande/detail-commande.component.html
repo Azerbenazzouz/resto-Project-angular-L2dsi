@@ -18,7 +18,7 @@
               <h4>Produits</h4>
               <ul>
                 <li *ngFor="let produit of commande.produitsCmd">
-                  {{ "produit.nom" }} ({{ produit.prixUnitaire }}€)
+                 {{ produit.qte }} * {{ getProductInfo(produit.produitId).nom }} ({{ getProductInfo(produit.produitId).prix }} TND)
                 </li>
               </ul>
             </div>
