@@ -35,7 +35,7 @@ export class ClientService {
   };
   // Add client
   addClient = (client : IClient) => {
-    this.clients.push(client);
+    this.clients = [...this.clients , client];
   };
   // Delete client
   deleteClient = (id : number) => {

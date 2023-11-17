@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IClient } from '../model/iclient';
 import { ClientService } from '../service/client.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-client',
@@ -16,7 +17,7 @@ export class AddClientComponent {
     tel: ''
   };
 
-  constructor( private clientService: ClientService ) { }
+  constructor( private clientService: ClientService , private router : Router) { }
 
   ngOnInit(): void {
   }
@@ -31,5 +32,6 @@ export class AddClientComponent {
       password: '',
       tel: ''
     };
+    this.router.navigate(['/client']);
   }
 }
