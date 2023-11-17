@@ -1,4 +1,15 @@
 <h1 class="text-center mb-5 mt-3">Liste des commandes</h1>
+<!-- ajouter commande button right green -->
+<div class="row">
+    <div class="col-md-6">
+      <input type="text" class="form-control mb-3" placeholder="Rechercher un client" [(ngModel)]="searchText" (keyup)="rechercheCommande()">
+    </div>
+  
+    <div class="col-md-6">
+      <a [routerLink]="['/client/add']" class="btn btn-success btn-block mb-3">Ajouter commande</a>
+    </div>
+    
+  </div>
 <table class="table">
     <thead>
         <th scope="col">#</th>

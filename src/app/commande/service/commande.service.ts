@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Icommande } from '../model/icommande';
 import { Icommandeproduit } from '../model/icommandeproduit';
+import { ClientService } from 'src/app/client/service/client.service';
 
 @Injectable({
   providedIn: 'root'
@@ -107,5 +108,5 @@ export class CommandeService {
     commande.produitsCmd.splice(index, 1);
     this.calculerTotal(commande);
   }
-  constructor() { }
+  constructor( private clientService : ClientService) { }
 }

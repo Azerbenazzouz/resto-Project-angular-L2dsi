@@ -10,6 +10,7 @@ import { ClientService } from 'src/app/client/service/client.service';
 })
 export class ListCommandeComponent {
     commandes : Icommande[] = [];
+    searchText : string = "";
     constructor( private commandeService : CommandeService , private clientService : ClientService) { }
 
     ngOnInit() {
@@ -44,5 +45,17 @@ export class ListCommandeComponent {
     deleteCommande(id : number){
         this.commandeService.deleteCommandeById(id);
         this.commandes = this.commandeService.getCommandes();
+    }
+
+    rechercheCommande(){
+      if(this.searchText){
+        this.commandes = this.commandeService.getCommandes();
+        this.commandes = this.commandes.filter( (commande) => {
+            return commande.id.toString().match(this.searchText) || this.getClientName(commande.clientId).toLowerCase().match(this.searchText.toLowerCase()) || this.getEtatCommande(commande.etat).toLowerCase().match(this.searchText.toLowerCase());
+          }
+        );
+      }else{
+        this.commandes = this.commandeService.getCommandes();
+      }
     }
 }
