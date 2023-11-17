@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Icommande } from '../model/icommande';
 import { Icommandeproduit } from '../model/icommandeproduit';
-// import { Iproduit } from '../../produit/model/iproduit';
-import { ProductService } from 'src/app/produit/service/product.service';
-import { CommandeProduitService } from './commande-produit.service';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -20,17 +18,20 @@ export class CommandeService {
     { produitId: 2,
       qte: 5,
       prixUnitaire: 44
-    }
+    },
+    { produitId: 5,
+      qte: 2,
+      prixUnitaire: 90
+    },
   ];
-  private commandeProduits1 : Icommandeproduit[] = this.commandeProduitService.getCommandesProduit();
-  s : CommandeProduitService = new CommandeProduitService(this.produitService);
+
   private commandes : Icommande[] = [
     { id: 1,
       dateCmd: new Date('2023-05-07'),
       etat: 1,
       clientId: 1,
-      produitsCmd: this.commandeProduitService.getCommandesProduit(),
-      total: 0
+      produitsCmd: [this.commandeProduits[0], this.commandeProduits[1]],
+      total: 320
     },
     { id: 2,
       dateCmd: new Date('2023-05-07'),
@@ -106,17 +107,5 @@ export class CommandeService {
     commande.produitsCmd.splice(index, 1);
     this.calculerTotal(commande);
   }
-  // set prix unitaire of commande produit
-  public setPrixUnitaire(commande: Icommande, produit: Icommandeproduit) {
-    produit.prixUnitaire = this.produitService.getPriceOfProduct(produit.produitId) as number;
-    this.calculerTotal(commande);
-  }
-  constructor( private produitService : ProductService , private commandeProduitService : CommandeProduitService ) {
-    for (let commande of this.commandes) {
-      for(let produit of commande.produitsCmd){
-        this.setPrixUnitaire(commande, produit);
-      }
-      this.calculerTotal(commande);
-    }
-  }
+  constructor() { }
 }
